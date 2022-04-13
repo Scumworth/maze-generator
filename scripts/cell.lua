@@ -14,7 +14,7 @@ end
 
 function Cell:link(cell, bidi)
     if bidi == nil then bidi = true end
-    table.insert(self.links, cell)
+    self.links[cell] = true
     if bidi == true then
         cell:link(self, false)
     end
@@ -29,17 +29,11 @@ function Cell:unlink(cell, bidi)
 end
 
 function Cell:links()
-    local keyset = {}
-    local n = 0
-    for k,_ in pairs(self.links) do
-        n = n + 1
-        keyset[n] = k
-    end
-    return keyset
+    return self.links
 end
 
 function Cell:is_linked(cell)
-    if self.links ~= nil then
+    if self.links[cell] ~= nil then
         return true
     else
         return false
@@ -48,7 +42,10 @@ end
 
 function Cell:neighbors()
     local neighbors = {}
-    -- TODO
+    if self.north ~= nil then table.insert(neighbors, self.north) end
+    if self.south ~= nil then table.insert(neighbors, self.south) end
+    if self.east ~= nil then table.insert(neighbors, self.east) end
+    if self.west ~= nil then table.insert(neighbors, self.west) end
     return neighbors
 end
 

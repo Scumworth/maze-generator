@@ -28,7 +28,7 @@ end
 
 -- void -> void
 function Grid:configure_cells()
-    for i, cell in ipairs(self:each_cell()) do
+    for _,cell in ipairs(self:each_cell()) do
         local row, column = cell.row, cell.column
         cell.north = self:get_cell(row - 1, column)
         cell.south = self:get_cell(row + 1, column)
@@ -39,7 +39,7 @@ end
 
 -- (int, int) -> cell?
 function Grid:get_cell(row, column)
-    if (row > 0 and row < self.rows) and (column > 0 and column < self.columns) then
+    if (row > 0 and row <= self.rows) and (column > 0 and column <= self.columns) then
         return self.grid[row][column]
     end
     return nil
@@ -79,15 +79,14 @@ function Grid:__tostring()
         local top = "|"
         local bottom = "+"
         for _,cell in ipairs(row) do
-            print(Utils:dump(cell, 0, 0))
-            if cell == nil then
-                local cell = Cell:new(-1, -1)
-            end
+            --if cell == nil then
+                --local cell = Cell:new(-1, -1)
+            --end
             local body = "   "
             local east_boundary
             if cell:is_linked(cell.east) then
                 east_boundary = " "
-            else 
+            else
                 east_boundary = "|"
             end
             top = top..body..east_boundary
