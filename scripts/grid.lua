@@ -28,7 +28,6 @@ end
 
 -- void -> void
 function Grid:configure_cells()
-    --print(Utils:dump(self:each_cell()))
     for i, cell in ipairs(self:each_cell()) do
         local row, column = cell.row, cell.column
         cell.north = self:get_cell(row - 1, column)
@@ -40,7 +39,6 @@ end
 
 -- (int, int) -> cell?
 function Grid:get_cell(row, column)
-    -- TODO check these ranges
     if (row > 0 and row < self.rows) and (column > 0 and column < self.columns) then
         return self.grid[row][column]
     end
@@ -77,11 +75,12 @@ end
 
 function Grid:__tostring()
     local output = "+"..string.rep("---+", self.columns).."\n"
-    for i, row in ipairs(self:each_row()) do
+    for _, row in ipairs(self:each_row()) do
         local top = "|"
         local bottom = "+"
-        for col, cell in ipairs(row) do
-            if cell == nil then 
+        for _,cell in ipairs(row) do
+            print(Utils:dump(cell, 0, 0))
+            if cell == nil then
                 local cell = Cell:new(-1, -1)
             end
             local body = "   "
