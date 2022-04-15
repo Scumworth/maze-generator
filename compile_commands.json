@@ -1,0 +1,34 @@
+[
+  {
+    "arguments": [
+      "/usr/lib/llvm-13/bin/clang",
+      "-c",
+      "-Wall",
+      "-std=c++17",
+      "-I/usr/include/lua5.4",
+      "-I./libs/",
+      "src/Interface.cpp",
+      "-o",
+      "mazegenerator"
+    ],
+    "directory": "/home/scumworth/repos/maze-generator",
+    "file": "/home/scumworth/repos/maze-generator/src/Interface.cpp",
+    "output": "/home/scumworth/repos/maze-generator/src/Interface.o"
+  },
+  {
+    "arguments": [
+      "/usr/lib/llvm-13/bin/clang",
+      "-c",
+      "-Wall",
+      "-std=c++17",
+      "-I/usr/include/lua5.4",
+      "-I./libs/",
+      "src/Main.cpp",
+      "-o",
+      "mazegenerator"
+    ],
+    "directory": "/home/scumworth/repos/maze-generator",
+    "file": "/home/scumworth/repos/maze-generator/src/Main.cpp",
+    "output": "/home/scumworth/repos/maze-generator/src/Main.o"
+  }
+]

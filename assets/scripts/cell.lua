@@ -1,5 +1,3 @@
-require 'utils'
-
 Cell = {}
 
 function Cell:new(row, column)

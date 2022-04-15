@@ -1,7 +1,10 @@
 #include "Interface.h"
 #include <SDL2/SDL.h>
 #include <iostream>
+#include <list>
 #include <SDL2/SDL_image.h>
+#include <sol/sol.hpp>
+#include <cassert>
 
 // constructor
 Interface::Interface() {
@@ -15,11 +18,34 @@ Interface::~Interface() {
 }
 
 void Interface::Initialize() {
-    // init
     if (SDL_Init(SDL_INIT_EVERYTHING) != 0) {
         std::cerr << "Error initializing SDL" << std::endl;
         return;
     }
+
+    // open common lua libs
+    lua.open_libraries(
+        sol::lib::base, 
+        sol::lib::package, 
+        sol::lib::table,
+        sol::lib::math,
+        sol::lib::string,
+        sol::lib::count,
+        sol::lib::package
+    );
+
+    lua.script("print('Lua is running')");
+    
+    // open custom lua scripts
+    lua.require_file("utils", "assets/scripts/utils.lua");
+    lua.require_file("cell", "assets/scripts/cell.lua");
+    lua.require_file("grid", "assets/scripts/grid.lua");
+    lua.require_file("binary_tree", "assets/scripts/binary_tree.lua");
+    
+    lua.script_file("assets/scripts/binary_tree_demo.lua");
+
+    // create list to hold all rendered lines
+    std::list<Line> lines;
 
     // create SDL struct
     SDL_DisplayMode displayMode;
@@ -52,8 +78,8 @@ void Interface::Initialize() {
 
 void Interface::Run() {
     while (isRunning) {
-        ProcessInput();
         Render();
+        ProcessInput();
     }
 }
 
@@ -73,23 +99,19 @@ void Interface::ProcessInput() {
     }
 }
 
+void Interface::DrawLine(int x1, int y1, int x2, int y2) {
+    SDL_RenderDrawLine(renderer, x1, y1, x2, y2);
+}
+
 void Interface::Render() {
     SDL_SetRenderDrawColor(renderer, 21, 21, 21, 255);
     SDL_RenderClear(renderer);
-    // Draw a PNG texture
-    //SDL_Surface* surface = IMG_Load("./assets/images/tank-tiger-right.png"); 
-    //SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, surface);
-
-    // free memory
-    //SDL_FreeSurface(surface); 
-
-    // What is the destination rectangle that we want to place our texture
-    //SDL_Rect dstRect = { 10, 10, 32, 32 };
-
-    // copy texture to renderer
-    //SDL_RenderCopy(renderer, texture, NULL, &dstRect);
-    //SDL_DestroyTexture(texture);
-    
+    sol::table walls = lua["line_coords"];
+    int num_rows = lua["num_walls"];
+    SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+    for (int i = 1; i <= num_rows; i++) {
+        Interface::DrawLine(walls[i][1], walls[i][2], walls[i][3], walls[i][4]);
+    }
     // swap buffers
     SDL_RenderPresent(renderer);
 }
