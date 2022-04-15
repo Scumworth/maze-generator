@@ -99,8 +99,8 @@ void Interface::ProcessInput() {
     }
 }
 
-void Interface::DrawLine(int x1, int y1, int x2, int y2) {
-    SDL_RenderDrawLine(renderer, x1, y1, x2, y2);
+void Interface::DrawLine(int x1, int y1, int x2, int y2, int xoffset, int yoffset) {
+    SDL_RenderDrawLine(renderer, x1 + xoffset, y1 + yoffset, x2 + xoffset, y2 + yoffset);
 }
 
 void Interface::Render() {

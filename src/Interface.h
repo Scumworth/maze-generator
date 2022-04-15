@@ -15,7 +15,7 @@ class Interface {
             int x2;
             int y2;
         };
-        void DrawLine(int x1, int y1, int x2, int y2);
+        void DrawLine(int x1, int y1, int x2, int y2, int xoffset = 0, int yoffset = 0);
     public:
         // constructor
         Interface();

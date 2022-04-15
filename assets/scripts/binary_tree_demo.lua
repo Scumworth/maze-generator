@@ -2,8 +2,10 @@ require 'grid'
 require 'binary_tree'
 require 'utils'
 
-local cell_size = 20
-local grid = Grid:new(25, 35)
+local num_rows = tonumber(arg[1]) or 25
+local num_columns = tonumber(arg[2]) or 25
+local grid = Grid:new(num_rows, num_columns)
+local cell_size = tonumber(arg[3]) or 20
 local binary_grid = BinaryTree:apply(grid)
 line_coords = {}
 --print(Utils:dump(binary_grid.grid))
