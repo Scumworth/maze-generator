@@ -1,8 +1,6 @@
 require 'grid'
-require 'binary_tree'
+require 'sidewinder'
 
 local grid = Grid:new(5, 5)
-grid = BinaryTree:apply(grid)
+grid = Sidewinder:apply(grid)
 print(grid)
-
-

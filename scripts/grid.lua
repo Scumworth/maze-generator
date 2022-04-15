@@ -28,7 +28,7 @@ end
 
 -- void -> void
 function Grid:configure_cells()
-    for _,cell in ipairs(self:each_cell()) do
+    for _, cell in ipairs(self:each_cell()) do
         local row, column = cell.row, cell.column
         cell.north = self:get_cell(row - 1, column)
         cell.south = self:get_cell(row + 1, column)
@@ -65,8 +65,8 @@ end
 
 function Grid:each_cell()
     local cells = {}
-    for _,row in ipairs(self:each_row()) do
-        for _,cell in ipairs(row) do
+    for _, row in ipairs(self:each_row()) do
+        for _, cell in ipairs(row) do
             table.insert(cells, cell)
         end
     end
